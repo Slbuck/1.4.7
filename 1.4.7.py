@@ -72,3 +72,26 @@ def frame_all_images(thickness, color, directory=None):
         framed_image.save(framed_image_filename)
     
 
+
+def make_mask(rows, columns, stripe_width):
+    '''An example mask generator
+    Makes slanted stripes of width stripe_width
+    image
+    returns an ndarray of an RGBA image rows by columns
+    '''
+    
+    img = PIL.Image.new('RGBA', (columns, rows))
+    image = np.array(img)
+    for row in range(rows):
+        for column in range(columns):
+            if (row*column)/stripe_width % 2 == 0: 
+                #(r+c)/w says how many stripes above/below line y=x
+                # The % 2 says whether it is an even or odd stripe
+                
+                # Even stripe
+                image[row][column] = [20, 127, 255, 125] # pale red, alpha=0
+            
+            else:
+                # Odd stripe
+                image[row][column] = [175, 0, 255, 255] # magenta, alpha=255
+    return image
