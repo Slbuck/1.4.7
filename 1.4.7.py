@@ -95,3 +95,39 @@ def make_mask(rows, columns, stripe_width):
                 # Odd stripe
                 image[row][column] = [175, 0, 255, 255] # magenta, alpha=255
     return image
+
+def resize_image(original_image, width, height):
+    
+    size = (width, height)
+    
+    resize = original_image.resize(size)
+    return resize
+    
+
+def alter_all_images(width, height, directory=None):
+
+    if directory == None:
+        directory = os.getcwd()
+        
+    new_directory = os.path.join(directory, 'modified')
+    try:
+        os.mkdir(new_directory)
+    except OSError:
+        pass
+    
+    image_list, file_list = get_images(directory)  
+
+    for n in range(len(image_list)):
+        filename, filetype = file_list[n].split('.')
+                
+        resized_image = resize_image(image_list[n], width, height)
+        
+        resized_image_filename = os.path.join(new_directory, filename + '.png')
+        resized_image.save(resized_image_filename)
+
+
+
+
+        
+    
+   
